@@ -76,24 +76,33 @@ const data = {
 const canvas = document.getElementById('character');
 const ctx = canvas.getContext('2d');
 
+// canvas styles
 ctx.lineWidth = 6;
 ctx.lineCap = 'round';
 
-ctx.beginPath();
-data.medians.forEach((stroke) => {
-  stroke.forEach(([x, y], i) => {
-    if (i === 0) {
-      ctx.moveTo(x / 2, -(y / 2) + 450);
-    } else {
-      ctx.lineTo(x / 2, -(y / 2) + 450);
-    }
-  });
-});
-ctx.stroke();
-
-ctx.beginPath();
+// resize characters
 ctx.scale(0.5, -0.5);
-ctx.translate(0, -900 - 1024);
-data.strokes.forEach((stroke) => {
-  ctx.fill(new Path2D(stroke));
-});
+ctx.translate(0, -900);
+
+function drawMedians() {
+  ctx.beginPath();
+  data.medians.forEach((stroke) => {
+    stroke.forEach(([x, y], i) => {
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    });
+  });
+  ctx.stroke();
+}
+function drawStrokes() {
+  ctx.beginPath();
+  data.strokes.forEach((stroke) => {
+    ctx.fill(new Path2D(stroke));
+  });
+}
+
+// drawMedians();
+// drawStrokes();
