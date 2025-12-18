@@ -91,7 +91,7 @@ function strokeLength(points) {
 }
 
 // resample strokes to n even points
-function resampleStroke(points, n = 4) {
+function resampleStroke(points, n = 20) {
   const interval = strokeLength(points) / (n - 1); // interval length between new points
   let newPoints = [points[0]];
 
@@ -152,6 +152,26 @@ function resampleStroke(points, n = 4) {
   }
 
   return newPoints;
+}
+function centerStroke(points) {
+  // calculate average coordinates
+  let [ax, ay] = [0, 0];
+  points.forEach((p) => {
+    [ax, ay] + [(ax += p[0] / points.length), (ay += p[1] / points.length)];
+  });
+
+  // center the stoke by subtracting the average coord value from each point
+  return points.map(([x, y]) => [x - ax, y - ay]);
+}
+function scaleStrokeToUnit(points) {
+  // Scale to unit size by dividing each point by the distance of 0 to the furthest point
+  let maxD = 0;
+  points.forEach((p) => {
+    const d = dist([0, 0], p);
+    maxD = d > maxD ? d : maxD;
+  });
+
+  return points.map(([x, y]) => [x / maxD, y / maxD]);
 }
 
 const canvas = document.getElementById('character');

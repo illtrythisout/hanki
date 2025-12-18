@@ -1,3 +1,9 @@
+let medians = [
+  [2, 3],
+  [4, 1],
+  [7, 3],
+  [1, 6],
+];
 // find the distance between two points
 function dist(a, b) {
   const dx = a[0] - b[0];
@@ -15,7 +21,7 @@ function strokeLength(points) {
 }
 
 // resample strokes to n even points
-function resampleStroke(points, n = 4) {
+function resampleStroke(points, n = 20) {
   const interval = strokeLength(points) / (n - 1); // interval length between new points
   let newPoints = [points[0]];
 
@@ -78,7 +84,32 @@ function resampleStroke(points, n = 4) {
   return newPoints;
 }
 
-let newPoints = resampleStroke(testPoints, 8);
-console.log('Test points', testPoints);
-console.log('New points', newPoints);
-console.log(strokeLength(testPoints));
+function centerStroke(points) {
+  // calculate average coordinates
+  let [ax, ay] = [0, 0];
+  points.forEach((p) => {
+    [ax, ay] + [(ax += p[0] / points.length), (ay += p[1] / points.length)];
+  });
+
+  // center the stoke by subtracting the average coord value from each point
+  return points.map(([x, y]) => [x - ax, y - ay]);
+}
+
+function scaleStrokeToUnit(points) {
+  // Scale to unit size by dividing each point by the distance of 0 to the furthest point
+  let maxD = 0;
+  points.forEach((p) => {
+    const d = dist([0, 0], p);
+    maxD = d > maxD ? d : maxD;
+  });
+
+  return points.map(([x, y]) => [x / maxD, y / maxD]);
+}
+
+// let newPoints = resampleStroke(testPoints, 8);
+// console.log('Test points', testPoints);
+// console.log('New points', newPoints);
+// console.log(strokeLength(testPoints));
+
+console.dir(centerStroke(medians));
+console.dir(scaleStrokeToUnit(centerStroke(medians)));
