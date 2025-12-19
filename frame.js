@@ -1,20 +1,20 @@
-const canvas = document.getElementById('frame');
-const ctx = canvas.getContext('2d');
+const frameCanvas = document.getElementById('frame');
+const frameCtx = frameCanvas.getContext('2d');
 // basic canvas setup
 // guiding lines
-ctx.beginPath();
-ctx.moveTo(256, 0);
-ctx.lineTo(256, 512);
-ctx.moveTo(0, 256);
-ctx.lineTo(512, 256);
-ctx.setLineDash([0, 0]);
-ctx.stroke();
-ctx.beginPath();
-ctx.moveTo(0, 0);
-ctx.lineTo(512, 512);
-ctx.moveTo(512, 0);
-ctx.lineTo(0, 512);
-ctx.setLineDash([5, 5]);
-ctx.stroke();
+frameCtx.beginPath();
+frameCtx.moveTo(256, 0);
+frameCtx.lineTo(256, 512);
+frameCtx.moveTo(0, 256);
+frameCtx.lineTo(512, 256);
+frameCtx.setLineDash([0, 0]);
+frameCtx.stroke();
+frameCtx.beginPath();
+frameCtx.moveTo(0, 0);
+frameCtx.lineTo(512, 512);
+frameCtx.moveTo(512, 0);
+frameCtx.lineTo(0, 512);
+frameCtx.setLineDash([5, 5]);
+frameCtx.stroke();
 // reset styles
-ctx.setLineDash([0, 0]);
+frameCtx.setLineDash([0, 0]);

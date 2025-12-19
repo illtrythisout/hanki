@@ -80,7 +80,6 @@ function dist(a, b) {
   const dy = a[1] - b[1];
   return Math.hypot(dx, dy);
 }
-
 // find stroke length
 function strokeLength(points) {
   let len = 0;
@@ -89,7 +88,6 @@ function strokeLength(points) {
   }
   return len;
 }
-
 // resample strokes to n even points
 function resampleStroke(points, n = 20) {
   const interval = strokeLength(points) / (n - 1); // interval length between new points
@@ -174,52 +172,47 @@ function scaleStrokeToUnit(points) {
   return points.map(([x, y]) => [x / maxD, y / maxD]);
 }
 
-const canvas = document.getElementById('character');
-const ctx = canvas.getContext('2d');
+const characterCanvas = document.getElementById('character');
+const characterCtx = characterCanvas.getContext('2d');
 
-// canvas styles
-ctx.lineWidth = 6;
-ctx.lineCap = 'round';
+// characterCanvas styles
+characterCtx.lineWidth = 6;
+characterCtx.lineCap = 'round';
 
 // resize characters
-ctx.scale(0.5, -0.5);
-ctx.translate(0, -900);
+characterCtx.scale(0.5, -0.5);
+characterCtx.translate(0, -900);
 
 function drawMedians() {
-  ctx.beginPath();
+  characterCtx.beginPath();
   data.medians.forEach((stroke) => {
     stroke.forEach(([x, y], i) => {
       if (i === 0) {
-        ctx.moveTo(x, y);
+        characterCtx.moveTo(x, y);
       } else {
-        ctx.lineTo(x, y);
+        characterCtx.lineTo(x, y);
       }
     });
   });
-  ctx.stroke();
+  characterCtx.stroke();
 }
 function drawResampledMedians() {
-  ctx.beginPath();
+  characterCtx.beginPath();
   data.medians.forEach((stroke) => {
     const resampledStroke = resampleStroke(stroke, 50);
     resampledStroke.forEach(([x, y], i) => {
       if (i === 0) {
-        ctx.moveTo(x, y);
+        characterCtx.moveTo(x, y);
       } else {
-        ctx.lineTo(x, y);
+        characterCtx.lineTo(x, y);
       }
     });
   });
-  ctx.stroke();
+  characterCtx.stroke();
 }
 function drawStrokes() {
-  ctx.beginPath();
+  characterCtx.beginPath();
   data.strokes.forEach((stroke) => {
-    ctx.fill(new Path2D(stroke));
+    characterCtx.fill(new Path2D(stroke));
   });
 }
-
-drawMedians();
-ctx.strokeStyle = 'blue';
-drawResampledMedians();
-// drawStrokes();

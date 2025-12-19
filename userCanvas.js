@@ -1,21 +1,29 @@
-const canvas = document.getElementById('userCanvas');
-const ctx = canvas.getContext('2d');
+let userStrokes = [];
+let currentStroke = [];
+
+const userCanvas = document.getElementById('userCanvas');
+const userCtx = userCanvas.getContext('2d');
 // canvas styles
-ctx.lineWidth = 6;
-ctx.lineCap = 'round';
+userCtx.lineWidth = 6;
+userCtx.lineCap = 'round';
 
 // follow mouse
 function drawByUser() {
-  ctx.beginPath();
-  canvas.onmousedown = (e) => {
-    ctx.moveTo(e.offsetX, e.offsetY);
+  userCtx.beginPath();
+  userCanvas.onmousedown = (e) => {
+    currentStroke = [];
+    currentStroke.push([e.offsetX, e.offsetY]);
+    userCtx.moveTo(e.offsetX, e.offsetY);
   };
-  canvas.onmousemove = (e) => {
+  userCanvas.onmousemove = (e) => {
     if (e.buttons === 1) {
-      console.log(`(${e.offsetX}, ${e.offsetY})`);
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
+      currentStroke.push([e.offsetX, e.offsetY]);
+      userCtx.lineTo(e.offsetX, e.offsetY);
+      userCtx.stroke();
     }
+  };
+  userCanvas.onmouseup = () => {
+    userStrokes.push(currentStroke);
   };
 }
 drawByUser();
